@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+*.log
+*.pot
+*.mo
+*.js.map
+*.css.map
+#/db.sqlite3 # <--- ეს ხაზი კომენტარშია
+#/media/     # <--- ეს ხაზი კომენტარშია
+/staticfiles/
+
+# Environments
+venv/
+.venv/
+env/
+.env
+
+# IDEs
+.idea/
