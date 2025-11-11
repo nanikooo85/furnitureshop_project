@@ -5,12 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9f346a75-b537-411e-8513-eceafd54bd3e" name="Changes" comment="Initial Project Setup: Complete Django Backend and API.&#10;&#10;Includes all required models, admin configuration, REST API endpoints, Celery integration, and JWT authentication.">
+      <change afterPath="$PROJECT_DIR$/store/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/category_images" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/product_images" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/furnitureshop/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/furnitureshop/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/furnitureshop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/furnitureshop/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/migrations/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/store/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/store/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/store/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,18 +34,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "nanikooo85"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;nanikooo85&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/nanikooo85/furnitureshop_project.git",
-    "accountId": "ef64bb08-2752-40eb-ab56-a7acb47feddc"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nanikooo85/furnitureshop_project.git&quot;,
+    &quot;accountId&quot;: &quot;ef64bb08-2752-40eb-ab56-a7acb47feddc&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>

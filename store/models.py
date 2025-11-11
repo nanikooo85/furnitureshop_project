@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings # ⭐ CORRECTED: settings-ის იმპორტი
 from django.utils import timezone
 
 
@@ -9,6 +9,10 @@ from django.utils import timezone
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+
     image = models.ImageField(upload_to='category_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -31,6 +35,11 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
     is_available = models.BooleanField(default=True)
+    slug = models.SlugField(max_length=200, unique=True, null=True, blank=True)
+    featured = models.BooleanField(default=False)
+    color = models.CharField(max_length=50, blank=True)
+    material = models.CharField(max_length=50, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -62,7 +71,8 @@ class ProductImage(models.Model):
 # ====================================================
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    # ⭐ კორექტირება: User შეიცვალა settings.AUTH_USER_MODEL-ით ⭐
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -84,7 +94,7 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     class Meta:
-        unique_together = ('cart', 'product')  # თითო პროდუქტი მხოლოდ ერთხელ შეიძლება იყოს კალათაში
+        unique_together = ('cart', 'product')
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name}"
@@ -107,13 +117,14 @@ class Order(models.Model):
         ('CANCELED', 'Canceled'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    # ⭐ კორექტირება: User შეიცვალა settings.AUTH_USER_MODEL-ით ⭐
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='PENDING')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # მიტანის ინფორმაცია (შესაძლოა საჭირო იყოს დამატებითი ველები)
+    # მიტანის ინფორმაცია
     shipping_address = models.CharField(max_length=255, blank=True)
 
     class Meta:
@@ -129,9 +140,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)  # პროდუქტის წაშლა არ შლის შეკვეთის პოზიციას
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # ფასი ფიქსირდება შეკვეთის დროს
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} in Order {self.order.id}"

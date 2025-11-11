@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Custom Apps
-    'store',  # <--- თქვენი აპლიკაცია
+    'store',
+    #  ახლად შექმნილი Users აპლიკაცია
+    'users',
 
     # Third-party Apps
     'rest_framework',
@@ -180,3 +182,9 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': timedelta(days=1),  # ყოველ 24 საათში
     },
 }
+# furnitureshop_project/settings.py
+
+# ... (დაამატეთ ფაილის ბოლოში)
+
+# ⭐ აუცილებელია CustomUser მოდელის გამოსაყენებლად ⭐
+AUTH_USER_MODEL = 'users.CustomUser'
