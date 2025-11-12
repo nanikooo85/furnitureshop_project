@@ -105,34 +105,39 @@ class OrderViewSet(mixins.ListModelMixin,
             return Response({"error": "კალათა ცარიელია, შეკვეთა ვერ შეიქმნება."},
                             status=status.HTTP_400_BAD_REQUEST)
 
-        # 3. ტრანზაქციის დაწყება (თუ რამე შეცდომა მოხდა, ყველაფერი უკან დაბრუნდება)
-        with transaction.atomic():
-            # store/views.py - OrderViewSet-ის create მეთოდში (სწორი ვერსია)
+            # store/views.py - OrderViewSet-ის create მეთოდში (საბოლოო ვერსია)
 
-            # 4. შეკვეთის შექმნა (ჩავანაცვლეთ payment_status-ით status)
-            order = Order.objects.create(user=user, status='P')
+            # 3. ტრანზაქციის დაწყება (თუ რამე შეცდომა მოხდა, ყველაფერი უკან დაბრუნდება)
+            with transaction.atomic():
 
-            order_items = []
-            total_price = Decimal(0)
+                # 4. შეკვეთის შექმნა (ჩავანაცვლეთ payment_status-ით status)
+                order = Order.objects.create(user=user, status='P')
 
-            for item in cart.items.all():
-                # 5. OrderItem-ის შექმნა CartItem-ის საფუძველზე
-                order_item = OrderItem(
-                    order=order,
-                    product=item.product,
-                    quantity=item.quantity,
-                    price=item.product.price  # ✅ unit_price ჩანაცვლდა price-ით
-                )
-                order_items.append(order_item)
+                order_items = []
+                total_price = Decimal(0)
 
-                # 6. მთლიანი ფასის გამოთვლა
-                total_price += item.product.price * item.quantity
+                for item in cart.items.all():
+                    # 5. OrderItem-ის შექმნა CartItem-ის საფუძველზე
+                    order_item = OrderItem(
+                        order=order,
+                        product=item.product,
+                        quantity=item.quantity,
+                        price=item.product.price
+                    )
+                    order_items.append(order_item)
 
-                # 7. (მარაგის განახლება) - ეს ლოგიკა ჯერ გათიშულია
+                    # 6. მთლიანი ფასის გამოთვლა
+                    total_price += item.product.price * item.quantity
 
-            # 8. OrderItem-ების მასიური შენახვა
-            OrderItem.objects.bulk_create(order_items)
+                    # 7. ✅ მარაგის განახლება (Stock Management) - გააქტიურებულია
+                    product = item.product
+                    product.stock -= item.quantity  # stock – მარაგის რაოდენობა
+                    product.save()  # შეინახავს პროდუქტს ახალი მარაგით
 
+                # 8. OrderItem-ების მასიური შენახვა
+                OrderItem.objects.bulk_create(order_items)
+
+                # ... (დანარჩენი ლოგიკა, როგორიცაა კალათის გასუფთავება) ...
             # 9. Order-ის მთლიანი ფასის და სტატუსის განახლება
             order.total_price = total_price
             order.save()
